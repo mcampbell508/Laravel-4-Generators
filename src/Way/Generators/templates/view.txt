@@ -1,1 +1,43 @@
-$PATH$
+//RENAME #COLLECTION# TO something like posts
+//rename #RESOURCE# to singular of above e.g post
+//rename $COLLECTION$ to something like $posts
+//rename $RESOURCE$ to singular of above e.g $post
+
+@extends('layouts.master')
+
+@section('content')
+	
+	<h1>{{ $page_heading }}</h1>
+	<p>{{ link_to_route('#COLLECTION#.create', 'Add new #RESOURCE#') }}</p>
+	@if ($$COLLECTION$->count())
+		<table class="table table-striped table-bordered">
+			<thead>
+				<tr>
+					<th>Title</th>
+					<th>Body</th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach ($COLLECTION$ as $RESOURCE$)
+				<tr>
+					<td>{{ $RESOURCE$->title }}</td>
+					<td>{{ $RESOURCE$->body }}</td>
+					<td>{{ link_to_route('#COLLECTION#.edit', 'Edit',
+					array($RESOURCE->id), array('class' => 'btn btn-info')) }}</td>
+					<td>
+						{{ Form::open(array('method'
+						=> 'DELETE', 'route' => array('#COLLECTION#.destroy', $RESOURCE$->id))) }}
+						{{ Form::submit('Delete', array('class' =>
+						'btn btn-danger')) }}
+						{{ Form::close() }}
+					</td>
+				</tr>
+				@endforeach
+			</tbody>
+		</table>
+	@else
+		<p>There are no #RESOURCE#!</p>
+	@endif
+
+@stop
+
